@@ -1,0 +1,10 @@
+<h1> <%= @match.title %></h1>
+
+<br>
+
+<h2> Score: <%= @match.score %></h2>
+<% @users.each do |user| %>
+	<h3><%= user.email %> <%= user.score %></h3>
+<% end %>
+
+<%= link_to "Leave match", leave_match_path, method: :post %>
