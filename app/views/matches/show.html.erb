@@ -19,7 +19,6 @@
 		<% end %>
 	</div>
 
-	<h2> Pregunta: </h2>
 	<% if @question.category == "answerString" %>
 		<%= render :partial => "question_without_image", locals: { question: @question } %>
 	<% else %>
