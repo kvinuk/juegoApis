@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161110080049) do
+ActiveRecord::Schema.define(version: 20161114013959) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,14 +45,15 @@ ActiveRecord::Schema.define(version: 20161110080049) do
   add_index "pools", ["question_id"], name: "index_pools_on_question_id", using: :btree
 
   create_table "questions", force: :cascade do |t|
-    t.string   "type"
+    t.string   "category"
     t.string   "title"
     t.string   "answer1"
     t.string   "answer2"
     t.string   "answer3"
     t.string   "answer4"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.string   "question_image"
   end
 
   create_table "users", force: :cascade do |t|

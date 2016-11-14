@@ -3,8 +3,55 @@ class MatchesController < ApplicationController
 	before_action :check_belong_user!, only: [:show]
 
 	def show
+		min_id = params[:min_id]
 		@users = @match.users
+
+
+			while @match.questions.count < 10 do
+				questionId = rand(15) + 1
+				if @match.questions.include?(Question.find(questionId))
+				else
+					@match.questions << Question.find(questionId)
+				end
+			end
+			if @match.questions.count < 11
+				@match.questions << Question.find(31)
+			else
+			end
+		questions = @match.questions.order("id ASC")
+		if min_id
+		  @question = questions.where("question_id > ?", min_id).first
+		else
+		  @question = questions.first
+		end
+
+		if params[:val] != nil #checa que el usuario haya dado una respuesta
+			if Question.find(min_id).answer1 == params[:val] #compara la respuesta del usuario con la respuesta correcta
+				#suma score
+				current_user.score+=10
+				current_user.save
+			else
+			end
+		else
+		end
+
+		@users.each do |user| 
+			if @match.score < user.score
+				@match.score = user.score
+				@match.save
+				if @match.winner == nil && user.score == 100
+				@match.winner = user.id
+				@match.save
+				else
+				end
+			else
+			end
+
+
+		end
+
 	end
+
 	def new
 		@match = current_user.matches.build
 	end
@@ -33,10 +80,12 @@ class MatchesController < ApplicationController
 			if current_user.active != @match.id
 				current_user.active = @match.id
 				current_user.score = 0
+				current_user.save
 			else
 			end
 			if !current_user.matches.exists?(id: @match.id)
 					current_user.matches << @match
+					current_user.save
 			else
 			end
 			redirect_to "/matches/#{@match.id}"
@@ -62,13 +111,13 @@ class MatchesController < ApplicationController
   		if !@match.users.where(id: current_user.id).exists?
   			redirect_to search_match_path
   		else
-  			if @match.winner != nil || current_user.active == nil
+  			if current_user.active == nil
   				redirect_to new_match_path
   			else
   				if current_user.active != @match.id
   					redirect_to "/matches/#{current_user.active}"
   				else
-  					redirect_to root
+
   				end
   			end
   		end

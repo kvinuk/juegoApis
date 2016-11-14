@@ -7,14 +7,40 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<% if user_signed_in? %>
-    <%= link_to "Log out", destroy_user_session_path, method: :delete %>
-  <% else %>
-    <%= link_to "Log in", new_user_session_path %>
-  <% end %>
-
-<%= yield %>
-
+	<nav class="navbar navbar-inverse">
+	  <div class="container-fluid">
+	    <div class="navbar-header">
+	    	<%= link_to "Carrera Electrofílica", new_match_path, class: "navbar-brand" %>
+	    </div>
+	    <ul class="nav navbar-nav">
+		    <% if user_signed_in? %>
+		    	<% if current_user.active == nil %>
+		    		<li><%= link_to "Nuevo Juego", new_match_path %></li>
+		    		<li><%= link_to "Buscar Juego", search_match_path %></li>
+			    <% else %>
+			    	<li><%= link_to "Ir a mi juego actual", "../matches/#{current_user.active}" %></li>
+			    <% end %>
+		    <% else %>
+		    <% end %>
+	    </ul>
+	    <ul class="nav navbar-nav navbar-right">
+	      <% if user_signed_in? %>
+			    <li><%= link_to destroy_user_session_path, method: :delete do %>
+			    	<span class="glyphicon glyphicon-user"></span> Cerrar Sesión
+			    <% end %></li>
+		  <% else %>
+		  		<li><%= link_to new_registration_path(resource_name) do %>
+			   		<span class="glyphicon glyphicon-pencil"></span> Registrarse
+			   <% end %></li>
+			   <li><%= link_to new_user_session_path do %>
+			   		<span class="glyphicon glyphicon-log-in"></span> Iniciar Sesión
+			   <% end %></li>
+		  <% end %>
+	    </ul>
+	  </div>
+	</nav>
+	<div class="container-fluid">
+		<%= yield %>
+	</div>
 </body>
 </html>
