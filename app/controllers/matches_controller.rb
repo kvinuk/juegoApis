@@ -4,7 +4,8 @@ class MatchesController < ApplicationController
 
 	def show
 		min_id = params[:min_id]
-		@users = @match.users
+		@users = @match.users.order("id ASC")
+		@difference = nil
 
 
 			while @match.questions.count < 10 do
@@ -30,9 +31,12 @@ class MatchesController < ApplicationController
 				#suma score
 				current_user.score+=10
 				current_user.save
+				@difference = "+ 10"
 			else
+				@difference = "+ 0"
 			end
 		else
+			
 		end
 
 		@users.each do |user| 
