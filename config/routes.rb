@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get 'matches/search', to: 'matches#search', as: 'search_match'
   post 'matches/search', to: 'matches#join', as: 'join_match'
   post 'matches/leave', to: 'matches#leave', as: 'leave_match'
+  get 'info/index', to: 'info#index', as: 'info'
   resources :matches
 
 
