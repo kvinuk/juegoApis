@@ -43,7 +43,7 @@ class MatchesController < ApplicationController
 			if @match.score < user.score
 				@match.score = user.score
 				@match.save
-				if @match.winner == nil && user.score == 100
+				if @match.winner == nil && user.score == 50
 				@match.winner = user.id
 				@match.save
 				else
